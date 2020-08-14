@@ -80,13 +80,14 @@ for video in os.listdir(inputPath):
                 clips.append(sub_clip)
                 if i % 5 == 0:
                     print("Modifying Chunks: " + str(round((i / len(chunks) * 100), 2)) + "% Complete.")
-
+        
+        params = (['-crf', '25'])
         output_clip = concatenate_videoclips(clips)
-        output_clip.write_videofile(os.path.join(outputPath, video), threads=8, preset='ultrafast')
+        output_clip.write_videofile(os.path.join(outputPath, video), codec='libx264', ffmpeg_params=params, threads=8, preset='ultrafast')
         print("Success!")
         print("Output is stored in: " + os.path.join(outputPath, video))
 
         # DANGEROUS!!
-        shutil.rmtree(tempPath)
+        #shutil.rmtree(tempPath)
         tok = time.time()
         print("Took " + str(tok - tik) + " seconds.")
